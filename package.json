@@ -1,0 +1,10 @@
+{
+	"name" : "stylist",
+	"description" : "Inline live CSS editor for any modern browser",
+	"devDependencies" : {
+		"grunt" : "~0.4.5",
+		"grunt-contrib-uglify" : "~0.5.0",
+		"grunt-string-replace" : "~1.0.0",
+		"grunt-contrib-copy" : "~0.7.0"
+	}
+}
