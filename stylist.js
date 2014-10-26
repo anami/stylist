@@ -60,7 +60,7 @@
           ["right",           "0"],
           ["width",           "300px"],
           ["height",          "100%"],
-          ["zIndex",          "99999999"],
+          ["z-index",         "2147483647"],
           ["overflow",        "auto"],
           ["outline",         "none"],
           ["padding",         "10px 20px"],
