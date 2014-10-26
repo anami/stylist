@@ -4,7 +4,8 @@ Add and edit live CSS to any page in any modern browser.
 
 Simply copy the link below as a bookmark - click the bookmark on the page you wish to change...
 
-<a href="javascript:{SCRIPT}">Run Stylist</a>
+[Run Stylist][1]
+[1]:javascript:{SCRIPT}
 
 ## Rationale
 
