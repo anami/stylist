@@ -2,10 +2,7 @@
 
 Add and edit live CSS to any page in any modern browser.
 
-Simply copy the link below as a bookmark - click the bookmark on the page you wish to change...
-
-[Run Stylist][1]
-[1]:javascript:{SCRIPT}
+Visit the [Stylist](http://stylist.anami.me "Stylist") page and copy the "Run Stylist" link as a bookmark - click the bookmark on the page you wish to change...
 
 ## Rationale
 
