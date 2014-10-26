@@ -4,31 +4,35 @@ module.exports = function(grunt) {
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
 		uglify: {
-			options: {
-				banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'	
+		    normal: {
+			    options: {
+				    banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'	
+			    },
+			    build: {
+				    src: '<%= pkg.name %>.js',
+				    dest: '<%= pkg.name %>.min.js'
+			    }
 			},
-			build: {
-				src: '<%= pkg.name %>.js',
-				dest: '<%= pkg.name %>.min.js'
+			ie : {
+			    src: '<%= pkg.name %>.ie.js',
+			    dest: '<%= pkg.name %>.ie.min.js'
 			}
 		},
 		copy: {
 			main: {
 				src: 'index.src.html',
 				dest: 'index.html'
-			}, 
-			readme: {
-				src: 'readme.src.md',
-				dest: 'README.md'
 			}
 		},
 		'string-replace' : {
 			'index.html' : 'index.html',
-			'README.md' : 'README.md',
 			options: {
 				replacements: [{
 					pattern: /\{SCRIPT\}/,
 					replacement: '<%= grunt.file.read("stylist.min.js") %>'
+				},{
+				    pattern: /\{SCRIPT_IE\}/,
+				    replacement: '<%= grunt.file.read("stylist.ie.min.js") %>'
 				}]
 			}
 			

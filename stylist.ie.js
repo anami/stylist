@@ -1,6 +1,7 @@
 /* Stylist 
  * 
- * Inline CSS editor for any webpage
+ * Inline live CSS editor for any webpage for pretty much any browser..
+ * This editor is presented as a bookmarklet.
  *
  * anami
  *
@@ -10,18 +11,17 @@
  *
  * MIT Licence
  *
+ * Super optimised for IE..
  */
 
  // asynchronous self-invoking function to not pollute global namespace
 (function(window, document, undefined) {
-  var TAB_KEY_CODE = 9;
-  var M_KEY_CODE = 77;
-
-  var SOFT_TAB = '    ';
-  var SOFT_TAB_LENGTH = SOFT_TAB.length;
-
-  var ONLY_WHITESPACE_REGEX = /^\s*$/;
-  var WHITESPACE_SPLIT_REGEX = /\s+$/g;
+  var TAB_KEY_CODE = 9,
+      M_KEY_CODE = 77,
+      SOFT_TAB = '    ',
+      SOFT_TAB_LENGTH = SOFT_TAB.length,
+      ONLY_WHITESPACE_REGEX = /^\s*$/,
+      WHITESPACE_SPLIT_REGEX = /\s+$/g;
 
   /* Throttle the given function, condensing multiple calls into one call after
    * the given timeout period. In other words, allow at most one call to go
@@ -51,31 +51,43 @@
 
     
   function applyStylistStyles(textarea, panel) {
-        console.log('applying style....');
-      textarea.id = 'stylist:input';
-      panel.id    = 'stylist:panel';
+      console.log("applying style....");
+      textarea.id = "stylist:input";
+      panel.id    = "stylist:panel";
 
-      panel.style.position        = 'fixed';
-      panel.style.top             = 0;
-      panel.style.right           = 0;
-      panel.style.width           = '300px !important';
-      panel.style.height          = '100%';
-      panel.style.zIndex          = '9999999999';
-      panel.style.cssText         = 'z-index: 999999999 !important';
-      panel.style.overflow        = 'auto !important';
-      panel.style.outline         = 'none !important';
-      panel.style.padding         = '10px 20px !important';
-      panel.style.borderTop       = '0 !important';
-      panel.style.borderBottom    = '0 !important';
-      panel.style.borderRight     = '0 !important';
-      panel.style.borderLeft      = '1px solid #ccc !important';
-      panel.style.color           = '#222 !important';
-      panel.style.background      = '#fcfcfc';
-      textarea.style.font         = '13px "Inconsolata", "Consolas", "Menlo", "Monaco", "Lucida Console", "Courier New", "Courier", monospace !important;';
-      textarea.style.width        = '300px !important';
-      textarea.style.height       = '100%';
-      textarea.style.direction    = 'ltr !important';
-      textarea.style.textAlign    = 'left !important';
+      var panelStyles = [
+          ["position",        "fixed"],
+          ["top",             "0"],
+          ["right",           "0"],
+          ["width",           "300px"],
+          ["height",          "100%"],
+          ["z-index",         "2147483647"],
+          ["overflow",        "auto"],
+          ["outline",         "none"],
+          ["padding",         "10px 20px"],
+          ["borderTop",       "0"],
+          ["borderBottom",    "0"],
+          ["borderRight",     "0"],
+          ["borderLeft",      "1px solid #ccc"],
+          ["color",           "#222"],
+          ["background",      "#fcfcfc"]], 
+          textareaStyles = [
+          ["font",            "13px Inconsolata, Consolas, Menlo, Monaco, Lucida Console, Courier New, Courier, monospace"],
+          ["width",           "100%"],
+          ["height",          "100%"],
+          ["direction",       "ltr"],
+          ["textAlign",       "left"],
+          ["background",      "#fcfcfc"]],
+          i, len;
+
+      // set the styles to important to prevent user CSS from updating Stylist panel and textarea.
+      for (i = 0, len = panelStyles.length; i < len; i++) {
+        panel.style.setProperty(panelStyles[i][0], panelStyles[i][1], "important");
+      }
+      for (i = 0, len = textareaStyles.length; i < len; i++) {
+        textarea.style.setProperty(textareaStyles[i][0], textareaStyles[i][1], "important");
+      }
+
   }//end 
 
   /* Remove whitespace on the edges of this string. */
@@ -84,19 +96,29 @@
   };
 
   function init() {
-      var head = document.getElementsByTagName('head')[0],
+      // before we do anything - check if there is a stylist panel already..
+      if (document.getElementById('stylist\:panel')) {
+        alert('Stylist is already running - CTRL+M to open panel');
+      }
+
+      var head = document.getElementsByTagName("head")[0],
           body = document.body,
-          style = document.createElement('style'),
-          textarea = document.createElement('textarea'),
-          panel = document.createElement('div'),
-          h1 = document.createElement('h1');
+          style = document.createElement("style"),
+          textarea = document.createElement("textarea"),
+          panel = document.createElement("div"),
+          h1 = document.createElement("h1");
 
       // hide textarea by default
-      panel.style.display = 'none';
+      panel.style.display = "none";
       textarea.spellcheck = false;
 
 
-     h1.innerHTML = 'Stylist';
+      h1.innerHTML = "Stylist";
+      h1.style.setProperty("color", "#555", "important");
+      h1.style.setProperty("background-color", "#fcfcfc", "important");
+      h1.style.setProperty("width" , "150px", "important");
+      h1.style.setProperty("height", "53px", "important");
+
       applyStylistStyles(textarea,panel);
 
       panel.appendChild(h1);
@@ -104,48 +126,48 @@
       head.appendChild(style);
       body.appendChild(panel);
 
-      style.innerHTML = localStorage.siteStyle || '';
+      style.innerHTML = localStorage.siteStyle || "";
       textarea.value = style.innerHTML;
-      textarea.placeholder = '/* Enter your styles here. */';
+      textarea.placeholder = "/* Enter your styles here. */";
 
       // alt + click on an element adds its selector to the textarea
-      body.addEventListener('click', function(event) {
+      body.addEventListener("click", function(event) {
         // ensure textarea is actually displayed
-        if (textarea.style.display.indexOf('none') === -1 &&
+        if (textarea.style.display.indexOf("none") === -1 &&
             event.target.id !== textarea.id && event.altKey) {
-          var i = 0;
-          var target = event.target;
-          var elemClass = target.className.split(' ') || '';
-          var stylesList = [];
-          var existingStyles = '';
-          var selector = '';
-          var cssStatement;
-          var textToAdd;
+          var i = 0,
+            target = event.target,
+            elemClass = target.className.split(" ") || "",
+            stylesList = [],
+            existingStyles = "",
+            selector = "",
+            cssStatement,
+            textToAdd;
 
           // selector starts with the tag
           selector += target.tagName.toLowerCase();
 
           // include ID if there is one
           if (target.id) {
-            selector += '#' + target.id;
+            selector += "#" + target.id;
           }
 
           // include all classes found
           for (i = 0; i < elemClass.length; i++) {
             if (!ONLY_WHITESPACE_REGEX.test(elemClass[i])) {
-              selector += '.' + elemClass[i];
+              selector += "." + elemClass[i];
             }
           }
 
           // fill CSS with styles defined in the style attribute
-          if (target.getAttribute('style')) {
-            stylesList = target.getAttribute('style').split(';');
+          if (target.getAttribute("style")) {
+            stylesList = target.getAttribute("style").split(";");
           
             // keep track of CSS properties already defined in style attribute
             for (i = 0; i < stylesList.length; i++) {
               // condense mutliple whitespace into one space
               cssStatement = stylesList[i].split(WHITESPACE_SPLIT_REGEX)
-                .join(' ').trim();
+                .join(" ").trim();
 
               if (!ONLY_WHITESPACE_REGEX.test(cssStatement)) {
                 existingStyles += SOFT_TAB + cssStatement.toLowerCase() + ";\n";
@@ -162,7 +184,7 @@
               existingStyles = "{\n\n}";
             }
 
-            textToAdd = '\n' + selector + ' ' + existingStyles;
+            textToAdd = "\n" + selector + " " + existingStyles;
             textarea.value += textToAdd;
 
             // highlight added text for easy removal
@@ -187,11 +209,11 @@
       }
 
       // continually update styles with textarea content
-      textarea.addEventListener('keyup', updateAndSaveStyles);
-      textarea.addEventListener('change', updateAndSaveStyles);
+      textarea.addEventListener("keyup", updateAndSaveStyles);
+      textarea.addEventListener("change", updateAndSaveStyles);
 
       // pressing tab should insert spaces instead of focusing another element
-      textarea.addEventListener('keydown', function(event) {
+      textarea.addEventListener("keydown", function(event) {
         var value = textarea.value;
         var caret = textarea.selectionStart;
 
@@ -209,15 +231,14 @@
         }
       });
 
-      window.addEventListener('keydown', function(event) {
+      window.addEventListener("keydown", function(event) {
 
         // control + m toggles text area
         if (event.ctrlKey && event.keyCode === M_KEY_CODE) {
-                    alert('opening Stylist....');
-          if (panel.style.display == 'none') {
-            panel.style.display = 'block';
+          if (panel.style.display == "none") {
+            panel.style.display = "block";
           } else {
-            panel.style.display = 'none';
+            panel.style.display = "none";
           }
         }
       });
@@ -225,3 +246,4 @@
 
   init();
 })(this, this.document);
+
