@@ -5,17 +5,12 @@ module.exports = function(grunt) {
 		pkg: grunt.file.readJSON('package.json'),
 		uglify: {
 		    normal: {
-			    options: {
-				    banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'	
-			    },
-			    build: {
-				    src: '<%= pkg.name %>.js',
-				    dest: '<%= pkg.name %>.min.js'
-			    }
+			    src: '<%= pkg.name %>.js',
+			    dest: '<%= pkg.name %>.min.js'
 			},
 			ie : {
-			    src: '<%= pkg.name %>.ie.js',
-			    dest: '<%= pkg.name %>.ie.min.js'
+		        src: '<%= pkg.name %>.ie.js',
+		        dest: '<%= pkg.name %>.ie.min.js'
 			}
 		},
 		copy: {

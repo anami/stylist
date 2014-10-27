@@ -50,7 +50,6 @@
 
     
   function applyStylistStyles(textarea, panel) {
-      console.log("applying style....");
       textarea.id = "stylist:input";
       panel.id    = "stylist:panel";
 
@@ -98,6 +97,7 @@
       // before we do anything - check if there is a stylist panel already..
       if (document.getElementById('stylist\:panel')) {
         alert('Stylist is already running - CTRL+M to open panel');
+        return;
       }
 
       var head = document.getElementsByTagName("head")[0],
@@ -244,5 +244,6 @@
     }//end of init
 
   init();
+  
 })(this, this.document);
 
