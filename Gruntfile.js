@@ -7,10 +7,6 @@ module.exports = function(grunt) {
 		    normal: {
 			    src: '<%= pkg.name %>.js',
 			    dest: '<%= pkg.name %>.min.js'
-			},
-			ie : {
-		        src: '<%= pkg.name %>.ie.js',
-		        dest: '<%= pkg.name %>.ie.min.js'
 			}
 		},
 		copy: {
@@ -25,9 +21,6 @@ module.exports = function(grunt) {
 				replacements: [{
 					pattern: /\{SCRIPT\}/,
 					replacement: '<%= grunt.file.read("stylist.min.js") %>'
-				},{
-				    pattern: /\{SCRIPT_IE\}/,
-				    replacement: '<%= grunt.file.read("stylist.ie.min.js") %>'
 				}]
 			}
 			
