@@ -17,6 +17,7 @@
  // asynchronous self-invoking function to not pollute global namespace
 (function(window, document, undefined) {
   var TAB_KEY_CODE = 9,
+      DOCK_KEY = 76,  // L
       M_KEY_CODE = 77,
       SOFT_TAB = '    ',
       SOFT_TAB_LENGTH = SOFT_TAB.length,
@@ -50,11 +51,15 @@
   }
 
   /* apply the styleString as important styles so to prevent being overridden */
-  function applyImportantStyles(control, styleString) {
+  function applyImportantStyles(control, styleString, remove) {
     var styles = styleString.split(";"), style;
     for (var i =0, len = styles.length; i < len; i++ ) {
       style = styles[i].split(":");
-      control.style.setProperty(style[0], style[1], "important");
+      if (remove) {
+        control.style.removeProperty(style[0]);
+      } else {
+        control.style.setProperty(style[0], style[1], "important");
+      }
     }
   }
 
@@ -71,6 +76,8 @@
     return this.replace(/(^\s+|\s+$)/g, '');
   };
 
+
+
   function init() {
       // before we do anything - check if there is a stylist panel already..
       if (document.getElementById('stylist\:panel')) {
@@ -84,7 +91,36 @@
           textarea = document.createElement("textarea"),
           panel = document.createElement("div"),
           h1 = document.createElement("h1"),
-          ul = document.createElement("ul");
+          ul = document.createElement("ul"),
+          next_position = "B";
+
+      function positionPanel() {
+        switch(next_position) {
+          case "B":
+            applyImportantStyles(panel, "top:0;right:0;height:100%;width:300px", true);
+            applyImportantStyles(panel, "bottom:0;left:0;height:300px;width:100%;", false);
+            next_position = "L";
+            break;
+          case "L":
+            applyImportantStyles(panel, "bottom:0;left:0;height:300px;width:100%;", true);
+            applyImportantStyles(panel, "top:0;left:0;height:100%;width:300px", false);
+            next_position = "T";
+            break;
+          case "T":
+            applyImportantStyles(panel, "top:0;left:0;height:100%;width:300px", true);
+            applyImportantStyles(panel, "top:0;left:0;height:300px;width:100%", false);
+            next_position = "R";
+            break;
+          case "R":
+            applyImportantStyles(panel, "top:0;left:0;height:300px;width:100%", true);
+            applyImportantStyles(panel, "top:0;right:0;width:300px;height:100%", false);
+            next_position = "B";
+            break;
+          default:
+            alert('Unrecognized position');
+            break;
+        }
+      }
 
       // show panel by default
       panel.style.display = "block";
@@ -102,6 +138,7 @@
       applyImportantStyles(h1, "color:#555;background-color:#fcfcfc;width:150px;height:1.5em;margin:4px 0 4px 0;font-family:monospace");
       applyImportantStyles(ul, "font:12px monospace;list-style:none;margin-left:-30px");
       addItem(ul,"CTRL+M: toggle this panel");
+      addItem(ul,"CTRL+L: change dock position");
       addItem(ul,"ALT+click: target element");
 
       panel.appendChild(h1);
@@ -216,13 +253,23 @@
       });
 
       window.addEventListener("keydown", function(event) {
-
-        // control + m toggles text area
-        if (event.ctrlKey && event.keyCode === M_KEY_CODE) {
-          if (panel.style.display == "none") {
-            panel.style.display = "block";
-          } else {
-            panel.style.display = "none";
+        if (event.ctrlKey) {
+          switch(event.keyCode) {
+            case M_KEY_CODE: {
+              // control + m toggles text area
+              if (panel.style.display == "none") {
+                panel.style.display = "block";
+              } else {
+                panel.style.display = "none";
+              }
+              break;
+            }
+            case DOCK_KEY: {
+              // control + l - changes dock position
+              console.log('changing dock position')
+              positionPanel();
+              break;
+            }
           }
         }
       });
