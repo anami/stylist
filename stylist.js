@@ -17,7 +17,7 @@
  // asynchronous self-invoking function to not pollute global namespace
 (function(window, document, undefined) {
   var TAB_KEY_CODE = 9,
-      DOCK_KEY = 73,  // I
+      DOCK_KEY = 89,  // Y
       M_KEY_CODE = 77,
       SOFT_TAB = '    ',
       SOFT_TAB_LENGTH = SOFT_TAB.length,
@@ -138,7 +138,7 @@
       applyImportantStyles(h1, "color:#555;background-color:#fcfcfc;width:150px;height:1.5em;margin:4px 0 4px 0;font-family:monospace");
       applyImportantStyles(ul, "font:12px monospace;list-style:none;margin-left:-30px");
       addItem(ul,"CTRL+M: toggle this panel");
-      addItem(ul,"CTRL+I: change dock position");
+      addItem(ul,"CTRL+Y: change dock position");
       addItem(ul,"ALT+click: target element");
 
       panel.appendChild(h1);
