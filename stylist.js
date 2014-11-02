@@ -19,6 +19,7 @@
   var TAB_KEY_CODE = 9,
       DOCK_KEY = 89,  // Y
       M_KEY_CODE = 77,
+      SAVE_KEY = 83, // S
       SOFT_TAB = '    ',
       SOFT_TAB_LENGTH = SOFT_TAB.length,
       ONLY_WHITESPACE_REGEX = /^\s*$/,
@@ -92,7 +93,10 @@
           panel = document.createElement("div"),
           h1 = document.createElement("h1"),
           ul = document.createElement("ul"),
-          next_position = "B";
+          download = document.createElement("a"),
+          filename,
+          next_position = "B",
+          filesystem;
 
       function positionPanel() {
         switch(next_position) {
@@ -130,21 +134,24 @@
       panel.id    = "stylist:panel";
 
       // set the styles to important to prevent user CSS from updating Stylist panel and textarea.
-      applyImportantStyles(panel, "position:fixed;top:0;right:0;width:300px;height:100%;z-index:2147483647;overflow:auto;outline:none;padding:10px 20px;borderTop:0;borderBottom:0;borderRight:0;borderLeft:1px solid #ccc;color:#222;background:#fcfcfc");
-      applyImportantStyles(textarea, "font:13px Inconsolata, Consolas, Menlo, Monaco, Lucida Console, Courier New, Courier, monospace;width:100%;height:calc(100% - 120px);direction:ltr;textAlign:left;background:#fcfcfc");
+      applyImportantStyles(panel, "position:fixed;top:0;right:0;width:300px;height:100%;z-index:2147483647;overflow:auto;outline:solid 1px #333;padding:10px 20px;borderTop:0;borderBottom:0;borderRight:0;borderLeft:1px solid #ccc;color:#222;background:#fcfcfc");
+      applyImportantStyles(textarea, "font:13px Inconsolata, Consolas, Menlo, Monaco, Lucida Console, Courier New, Courier, monospace;width:100%;height:calc(100% - 140px);direction:ltr;textAlign:left;background:#fcfcfc");
+      applyImportantStyles(download, "display:none;");
 
       // Add some basic instructions..
       h1.innerHTML = "Stylist";
-      applyImportantStyles(h1, "color:#555;background-color:#fcfcfc;width:150px;height:1.5em;margin:4px 0 4px 0;font-family:monospace");
-      applyImportantStyles(ul, "font:12px monospace;list-style:none;margin-left:-30px");
+      applyImportantStyles(h1, "color:#555;background-color:#fcfcfc;width:150px;height:1.5em;margin:4px 0 4px 0;font-family:serif;font-size:20px;font-style:oblique");
+      applyImportantStyles(ul, "font:12px monospace;list-style:none;margin-left:-40px;margin-top:0px");
       addItem(ul,"CTRL+M: toggle this panel");
       addItem(ul,"CTRL+Y: change dock position");
       addItem(ul,"ALT+click: target element");
+      addItem(ul,"CTRL+S: save CSS to file");
 
       panel.appendChild(h1);
       panel.appendChild(ul);
       panel.appendChild(textarea);
-      head.appendChild(style);
+      panel.appendChild(download);
+      head.appendChild(style); //head
       body.appendChild(panel);
 
       style.innerHTML = localStorage.siteStyle || "";
@@ -252,6 +259,48 @@
         }
       });
 
+      function saveCSSToFile() {
+        var data = new Blob([textarea.value], {type: "text/plain;charset=UTF-8"});
+        filename = window.URL.createObjectURL(data, {oneTimeOnly : true});
+        
+        download.href = filename;
+        download.download = "stylist_" + getTimestamp() + ".css";
+        download.click(false);
+        window.URL.revokeObjectURL(filename); 
+      }
+
+      function getTimestamp() {
+        var d1=new Date(),
+            curr_year = d1.getFullYear(),
+            curr_month = d1.getMonth() + 1, //Months are zero based
+            curr_date = d1.getDate(),
+            curr_hour = d1.getHours(),
+            curr_min = d1.getMinutes(),
+            curr_min = d1.getMinutes(),
+            curr_sec = d1.getSeconds(),
+            delimiter = "_",
+            timestamp;
+            
+        if (curr_month < 10)
+            curr_month = "0" + curr_month;
+          
+        if (curr_date < 10)
+            curr_date = "0" + curr_date;
+
+        if (curr_hour < 10)
+            curr_hour = "0" + curr_hour;
+
+        if (curr_min < 10)
+            curr_min = "0" + curr_min;
+    
+        if (curr_sec < 10)
+            curr_sec = "0" + curr_sec;
+
+        timestamp = curr_year + delimiter + curr_month + delimiter + curr_date + delimiter + curr_hour + delimiter + curr_min + delimiter + curr_sec;
+
+        return timestamp;
+      }
+               
       window.addEventListener("keydown", function(event) {
         if (event.ctrlKey) {
           switch(event.keyCode) {
@@ -266,8 +315,18 @@
             }
             case DOCK_KEY: {
               // control + l - changes dock position
-              console.log('changing dock position')
               positionPanel();
+              break;
+            }
+            case SAVE_KEY: {
+              // save the CSS as a file.
+              try {
+                saveCSSToFile();
+                event.preventDefault();
+              } catch (e) {
+                console.log(e);
+                  alert("Unable to save your file.");
+              }
               break;
             }
           }
