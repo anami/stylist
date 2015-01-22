@@ -2,9 +2,9 @@
 
 Add and edit live CSS to any page in any modern browser... and have the changes persist everytime you run the bookmarklet on the page.
 
-Visit the [Stylist](http://stylist.anami.me "Stylist") page and copy the "Run Stylist" link as a bookmark - click the bookmark on the page you wish to change...
+Visit the [Stylist](http://anami.github.io/stylist "Stylist") page and copy the "Run Stylist" link as a bookmark - click the bookmark on the page you wish to change...
 
-You may want a different look to a page that you regularly visit or help you style a page that you are developing.<
+You may want a different look to a page that you regularly visit or help you style a page that you are developing.
 
 Once you have clicked the bookmarklet - the panel should open and you're good to go..
 
