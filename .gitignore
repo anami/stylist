@@ -1,2 +1,10 @@
 npm-debug.log
 node_modules/**/*
+
+nbproject/private/private.properties
+
+nbproject/private/private.xml
+
+nbproject/project.properties
+
+nbproject/project.xml

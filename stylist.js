@@ -96,8 +96,6 @@
             versionDiv = document.createElement("version"),
             filename,
             next_position = "B",
-            filesystem,
-            applyStyles = true,
             isChrome = !!window.chrome;
 
         function positionPanel() {
@@ -299,7 +297,6 @@
                 curr_month = d1.getMonth() + 1, //Months are zero based
                 curr_date = d1.getDate(),
                 curr_hour = d1.getHours(),
-                curr_min = d1.getMinutes(),
                 curr_min = d1.getMinutes(),
                 curr_sec = d1.getSeconds(),
                 delimiter = "_",
