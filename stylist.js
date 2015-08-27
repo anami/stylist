@@ -7,7 +7,7 @@
  *
  * inspired by github.com/karthikv/my-style
  *
- * October 2014
+ * August 2014
  *
  * MIT Licence
  *
@@ -23,7 +23,8 @@
       SOFT_TAB = '    ',
       SOFT_TAB_LENGTH = SOFT_TAB.length,
       ONLY_WHITESPACE_REGEX = /^\s*$/,
-      WHITESPACE_SPLIT_REGEX = /\s+$/g;
+      WHITESPACE_SPLIT_REGEX = /\s+$/g,
+      VERSION = '1.1';
 
   /* Throttle the given function, condensing multiple calls into one call after
    * the given timeout period. In other words, allow at most one call to go
@@ -77,12 +78,10 @@
     return this.replace(/(^\s+|\s+$)/g, '');
   };
 
-
-
   function init() {
       // before we do anything - check if there is a stylist panel already..
       if (document.getElementById('stylist\:panel')) {
-        alert('Stylist is already running - CTRL+M to open panel');
+        togglePanel(true);
         return;
       }
 
@@ -265,7 +264,7 @@
         
         download.href = filename;
         download.download = "stylist_" + getTimestamp() + ".css";
-        download.click(false);
+        download[0].click();
         window.URL.revokeObjectURL(filename); 
       }
 
@@ -300,17 +299,17 @@
 
         return timestamp;
       }
+      
+      function togglePanel(open) {
+        panel.style.display = (open) ? "block" : "none";
+      }
                
       window.addEventListener("keydown", function(event) {
         if (event.ctrlKey) {
           switch(event.keyCode) {
             case M_KEY_CODE: {
               // control + m toggles text area
-              if (panel.style.display == "none") {
-                panel.style.display = "block";
-              } else {
-                panel.style.display = "none";
-              }
+              togglePanel((panel.style.display === "none"));
               break;
             }
             case DOCK_KEY: {
