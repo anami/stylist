@@ -1,6 +1,6 @@
 # Stylist
 
-Add and edit live CSS to any page in any modern browser... and have the changes persist everytime you run the bookmarklet on the page.
+Add and edit live CSS on any page in any modern browser... and have the changes persist everytime you run the bookmarklet on the page.
 
 Visit the [Stylist](http://anami.github.io/stylist "Stylist") page and copy the "Run Stylist" link as a bookmark - click the bookmark on the page you wish to change...
 
@@ -14,9 +14,11 @@ I wasn't aware of any live CSS editors at the time. However upon finding them, t
 		
 Styling on Internet Explorer is a pain and quite unfairly it does not have the extension ecosystem enjoyed in the other 'modern' browsers. This editor is to accommodate those developers that need to use IE and make their lives a little easier
 
+It also allows styles to be moved from browser to browser to ensure the CSS is valid on all browsers. Potentially saving you heaps of time!
+
 ## Inspiration		
 
-This work has been inspired by <a href="http://githib.com/karthikv/my-style">githib.com/karthikv/my-style</a>
+This work has been inspired by <a href="http://github.com/karthikv/my-style">github.com/karthikv/my-style</a>
 
 ## Licence
 
