@@ -286,7 +286,7 @@
             console.log(download);
             download.href = filename;
             download.download = "stylist_" + getTimestamp() + ".css";
-            download.click(false);
+            download.click();
             window.URL.revokeObjectURL(filename);
         }
 
