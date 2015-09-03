@@ -161,7 +161,6 @@
         panel.appendChild(ul);
         panel.appendChild(toggleBox);
         panel.appendChild(textarea);
-        panel.appendChild(download);
         panel.appendChild(versionDiv);
         head.appendChild(style); //head
         body.appendChild(panel);
@@ -284,10 +283,10 @@
         function saveCSSToFile() {
             var data = new Blob([textarea.value], { type: "text/plain;charset=UTF-8" });
             filename = window.URL.createObjectURL(data, { oneTimeOnly: true });
-
+            console.log(download);
             download.href = filename;
             download.download = "stylist_" + getTimestamp() + ".css";
-            download[0].click();
+            download.click(false);
             window.URL.revokeObjectURL(filename);
         }
 
