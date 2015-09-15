@@ -139,7 +139,7 @@
         checkbox.setAttribute("checked", "checked");
         toggleBox.appendChild(checkbox);
         toggleBox.appendChild(document.createTextNode("Apply CSS"));
-        applyImportantStyles(toggleBox, "font:12px monospace;vertical-align:middle");
+        applyImportantStyles(toggleBox, "font:12px monospace;vertical-align:middle;text-align:left");
         applyImportantStyles(checkbox, "vertical-align:middle");
 
         // set the styles to important to prevent user CSS from updating Stylist panel and textarea.
@@ -151,7 +151,7 @@
 
         // Add some basic instructions..
         h1.innerHTML = "Stylist";
-        applyImportantStyles(h1, "color:#555;background-color:#fcfcfc;width:150px;height:1.5em;margin:4px 0 4px 0;font-family:serif;font-size:20px;font-style:oblique;line-height:1.5em;box-shadow:none;text-shadow:none");
+        applyImportantStyles(h1, "color:#555;background-color:#fcfcfc;width:150px;height:1.5em;margin:4px 0 4px 0;font-family:serif;font-size:20px;font-style:oblique;line-height:1.5em;box-shadow:none;text-shadow:none;text-align:left;");
         applyImportantStyles(ul, "font:12px monospace;list-style:none;margin-left:-40px;margin-top:0px");
         addItem(ul, "CTRL+M: toggle this panel");
         addItem(ul, "CTRL+Y: change dock position");
@@ -317,7 +317,7 @@
             if (curr_sec < 10)
                 curr_sec = "0" + curr_sec;
 
-            timestamp = curr_year + delimiter + curr_month + delimiter + curr_date + delimiter + curr_hour + delimiter + curr_min + delimiter + curr_sec;
+            timestamp = curr_year + delimiter + curr_month + curr_date + curr_hour + curr_min + curr_sec;
 
             return timestamp;
         }
