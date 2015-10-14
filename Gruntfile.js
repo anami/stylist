@@ -5,13 +5,18 @@ module.exports = function(grunt) {
 		pkg: grunt.file.readJSON('package.json'),
 		uglify: {
 			options: {
+				mangle: true,
 				compress: {
 					negate_iife: false
 				}
 			},
 		    normal: {
-			    src: '<%= pkg.name %>.js',
-			    dest: '<%= pkg.name %>.min.js'
+		    	files : {
+		    		'<%= pkg.name %>.min.js' : ['<%= pkg.name %>.js'],
+		    		'<%= pkg.name %>_ie9.min.js' : ['<%= pkg.name %>_ie9.js'],
+		    	}
+//			    src: '<%= pkg.name %>.js',
+//	    		dest: '<%= pkg.name %>.min.js'
 			}
 		},
 		copy: {
@@ -26,6 +31,9 @@ module.exports = function(grunt) {
 				replacements: [{
 					pattern: /\{SCRIPT\}/,
 					replacement: '<%= grunt.file.read("stylist.min.js") %>'
+				},{
+					pattern: /\{SCRIPT_IE9\}/,
+					replacement: '<%= grunt.file.read("stylist_ie9.min.js") %>'
 				}]
 			}
 			

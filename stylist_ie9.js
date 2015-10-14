@@ -11,6 +11,8 @@
  *
  * MIT Licence
  *
+ * For IE9 
+ *
  */
 
 // asynchronous self-invoking function to not pollute global namespace
@@ -18,12 +20,11 @@
     var TAB_KEY_CODE = 9,
         DOCK_KEY = 89,  // Y
         M_KEY_CODE = 77,
-        SAVE_KEY = 83, // S
         SOFT_TAB = '    ',
         SOFT_TAB_LENGTH = SOFT_TAB.length,
         ONLY_WHITESPACE_REGEX = /^\s*$/,
         WHITESPACE_SPLIT_REGEX = /\s+$/g,
-        VERSION = '1.2';
+        VERSION = '1.2.IE9';
 
     /* Throttle the given function, condensing multiple calls into one call after
      * the given timeout period. In other words, allow at most one call to go
@@ -95,8 +96,7 @@
             download = document.createElement("a"),
             versionDiv = document.createElement("version"),
             filename,
-            next_position = "B",
-            isChrome = !!window.chrome;
+            next_position = "B";
 
         function positionPanel() {
             switch (next_position) {
@@ -280,47 +280,6 @@
             }
         });
 
-        function saveCSSToFile() {
-            var data = new Blob([textarea.value], { type: "text/plain;charset=UTF-8" });
-            filename = window.URL.createObjectURL(data, { oneTimeOnly: true });
-            console.log(download);
-            download.href = filename;
-            download.download = "stylist_" + getTimestamp() + ".css";
-            download.click();
-            window.URL.revokeObjectURL(filename);
-        }
-
-        function getTimestamp() {
-            var d1 = new Date(),
-                curr_year = d1.getFullYear(),
-                curr_month = d1.getMonth() + 1, //Months are zero based
-                curr_date = d1.getDate(),
-                curr_hour = d1.getHours(),
-                curr_min = d1.getMinutes(),
-                curr_sec = d1.getSeconds(),
-                delimiter = "_",
-                timestamp;
-
-            if (curr_month < 10)
-                curr_month = "0" + curr_month;
-
-            if (curr_date < 10)
-                curr_date = "0" + curr_date;
-
-            if (curr_hour < 10)
-                curr_hour = "0" + curr_hour;
-
-            if (curr_min < 10)
-                curr_min = "0" + curr_min;
-
-            if (curr_sec < 10)
-                curr_sec = "0" + curr_sec;
-
-            timestamp = curr_year + delimiter + curr_month + curr_date + curr_hour + curr_min + curr_sec;
-
-            return timestamp;
-        }
-
         function togglePanel(open) {
             var stylistPanel = panel || document.getElementById("stylist\:panel");
             if (stylistPanel) {
@@ -339,19 +298,6 @@
                     case DOCK_KEY: {
                         // control + l - changes dock position
                         positionPanel();
-                        break;
-                    }
-                    case SAVE_KEY: {
-                        // save the CSS as a file.
-                        if (isChrome) {
-                            try {
-                                event.preventDefault();
-                                saveCSSToFile();
-                            } catch (e) {
-                                console.log(e);
-                                alert("Unable to save your file.");
-                            }
-                        }
                         break;
                     }
                 }
