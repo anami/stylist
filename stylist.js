@@ -97,6 +97,7 @@
             toggleBox = document.createElement("label"),
             download = document.createElement("a"),
             versionDiv = document.createElement("version"),
+            closeButton = document.createElement("button"),
             filename,
             next_position = "B",
             isChrome = !!window.chrome;
@@ -149,9 +150,14 @@
         applyImportantStyles(panel, "position:fixed;top:0;right:0;width:300px;height:100%;z-index:2147483647;overflow:auto;outline:solid 1px #333;padding:0 20px;borderTop:0;borderBottom:0;borderRight:0;borderLeft:1px solid #ccc;color:#222;background:#fcfcfc");
         applyImportantStyles(textarea, "font:13px Inconsolata, Consolas, Menlo, Monaco, Lucida Console, Courier New, Courier, monospace;width:100%;height:calc(100% - 140px);direction:ltr;textAlign:left;background:#fcfcfc");
         applyImportantStyles(download, "display:none");
-        applyImportantStyles(versionDiv, "font:9px monospace;color:#aaa;position:absolute;top:10px;right:10px");
+        applyImportantStyles(versionDiv, "font:9px monospace;color:#aaa;position:absolute;top:10px;right:20px");
         versionDiv.innerHTML = "v" + VERSION;
-
+        
+        // closeButton styling.
+        closeButton.id = "stylist:close";
+        closeButton.appendChild(document.createTextNode("&times;"));
+        applyImportantStyles(closeButton, "position:absolute;top:10px;right:10px;cursor:pointer;width:16px;height:16px;font-size:8pt;text-align:center;vertical-align:middle;padding:0");
+        
         // Add some basic instructions..
         h1.innerHTML = "Stylist";
         applyImportantStyles(h1, "color:#555;background-color:#fcfcfc;width:150px;height:1.5em;margin:4px 0 4px 0;font-family:serif;font-size:20px;font-style:oblique;line-height:1.5em;box-shadow:none;text-shadow:none;text-align:left");
@@ -165,6 +171,7 @@
         panel.appendChild(toggleBox);
         panel.appendChild(textarea);
         panel.appendChild(versionDiv);
+        panel.appendChild(closeButton);
         head.appendChild(style); //head
         body.appendChild(panel);
 
@@ -258,6 +265,12 @@
         // Apply the style when the Apply Style checkbox is checked.
         checkbox.addEventListener("click", function (e) {
             updateAndSaveStyles();
+        });
+        
+        // closebutton event listener
+        closeButton.addEventListener("click", function(e) {
+           // close the panel - since the button is visible!
+           togglePanel(false); 
         });
 
         // continually update styles with textarea content
