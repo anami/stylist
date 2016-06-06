@@ -57,11 +57,10 @@
         for (var i = 0, len = styles.length; i < len; i++) {
             if (styles[i] != "") {
                 style = styles[i].split(":");
-                console.log(style[0]);
                 if (remove) {
                     control.style.removeProperty(style[0]);
                 } else {
-                    control.style.setProperty(style[0], style[1]);
+                    control.style.setProperty(style[0], style[1], "important");
                 }
             }
         }
@@ -113,30 +112,25 @@
             isChrome = !!window.chrome;
 
         function positionPanel() {
-            console.log(next_position);
-            console.log(panel);
             switch (next_position) {
                 case "B":
-                    
-                    applyImportantStyles(panel, "bottom:;left:;height:;width:", false);
                     applyImportantStyles(panel, "top:0;right:0;height:100%;width:300px", true);
+                    applyImportantStyles(panel, "bottom:0;left:0;height:300px;width:98%", false);
                     next_position = "L";
                     break;
                 case "L":
-                    
-                    applyImportantStyles(panel, "top:;left:;height:;width:", false);
-                    applyImportantStyles(panel, "bottom:0;left:0;height:300px;width:100%", true);
+                    applyImportantStyles(panel, "bottom:0;left:0;height:300px;width:98%", true);
+                    applyImportantStyles(panel, "top:0;left:0;height:100%;width:300px", false);
                     next_position = "T";
                     break;
                 case "T":
-                    
-                    applyImportantStyles(panel, "top:;left:;height:;width:", false);
                     applyImportantStyles(panel, "top:0;left:0;height:100%;width:300px", true);
+                    applyImportantStyles(panel, "top:0;left:0;height:300px;width:98%", false);
                     next_position = "R";
                     break;
                 case "R":
-                    applyImportantStyles(panel, "top:;right:;width:;height:", false);
-                    applyImportantStyles(panel, "top:0;left:0;height:300px;width:100%", true);
+                    applyImportantStyles(panel, "top:0;left:0;height:300px;width:98%", true);
+                    applyImportantStyles(panel, "top:0;right:0;height:100%;width:300px", false);
                     next_position = "B";
                     break;
                 default:
@@ -170,9 +164,9 @@
         
         // closeButton styling.
         closeButton.id = "stylist:close";
-        //closeButton.setAttribute("title", "Close this panel");
+        closeButton.setAttribute("title", "Close this panel");
         closeButton.appendChild(document.createTextNode("&times;"));
-        applyImportantStyles(closeButton, "position:absolute;top:10px;right:10px;cursor:pointer;width:16px;height:16px;font-size:8pt;text-align:center;vertical-align:middle;padding:0");
+        applyImportantStyles(closeButton, "position:absolute;top:10px;right:10px;cursor:pointer;width:20px;height:20px;font-size:8pt;text-align:center;vertical-align:middle;padding:0");
         
         // Add some basic instructions..
         h1.innerHTML = "Stylist";
@@ -193,7 +187,7 @@
         panel.appendChild(toggleBox);
         panel.appendChild(textarea);
         panel.appendChild(versionDiv);
-        //panel.appendChild(closeButton);
+        panel.appendChild(closeButton);
         head.appendChild(style); //head
         body.appendChild(panel);
 
