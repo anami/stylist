@@ -23,7 +23,7 @@
         SOFT_TAB_LENGTH = SOFT_TAB.length,
         ONLY_WHITESPACE_REGEX = /^\s*$/,
         WHITESPACE_SPLIT_REGEX = /\s+$/g,
-        VERSION = '1.2';
+        VERSION = '1.3';
 
     /* Throttle the given function, condensing multiple calls into one call after
      * the given timeout period. In other words, allow at most one call to go
@@ -57,11 +57,11 @@
         for (var i = 0, len = styles.length; i < len; i++) {
             if (styles[i] != "") {
                 style = styles[i].split(":");
-                console.log(control.tagName);
+                console.log(style[0]);
                 if (remove) {
                     control.style.removeProperty(style[0]);
                 } else {
-                    control.style.setProperty(style[0], style[1], "important");
+                    control.style.setProperty(style[0], style[1]);
                 }
             }
         }
@@ -80,8 +80,17 @@
         return this.replace(/(^\s+|\s+$)/g, '');
     };
 
+    /* Easy multilined string utility */
+    function hereDoc(f) {
+        return f.toString().
+            replace(/^[^\/]+\/\*!?/, '').
+            replace(/\*\/[^\/]+$/, '');
+    }
+    
+    /* Main starting function */
     function init() {
         // before we do anything - check if there is a stylist panel already..
+        // open it if available.
         if (document.getElementById('stylist\:panel')) {
             togglePanel(true);
             return;
@@ -98,30 +107,36 @@
             download = document.createElement("a"),
             versionDiv = document.createElement("version"),
             closeButton = document.createElement("button"),
+            posButton = document.createElement("button"),
             filename,
             next_position = "B",
             isChrome = !!window.chrome;
 
         function positionPanel() {
+            console.log(next_position);
+            console.log(panel);
             switch (next_position) {
                 case "B":
-                    applyImportantStyles(panel, "top:0;right:0;height:100%;width:300px", true);
+                    
                     applyImportantStyles(panel, "bottom:;left:;height:;width:", false);
+                    applyImportantStyles(panel, "top:0;right:0;height:100%;width:300px", true);
                     next_position = "L";
                     break;
                 case "L":
-                    applyImportantStyles(panel, "bottom:0;left:0;height:300px;width:100%", true);
+                    
                     applyImportantStyles(panel, "top:;left:;height:;width:", false);
+                    applyImportantStyles(panel, "bottom:0;left:0;height:300px;width:100%", true);
                     next_position = "T";
                     break;
                 case "T":
-                    applyImportantStyles(panel, "top:0;left:0;height:100%;width:300px", true);
+                    
                     applyImportantStyles(panel, "top:;left:;height:;width:", false);
+                    applyImportantStyles(panel, "top:0;left:0;height:100%;width:300px", true);
                     next_position = "R";
                     break;
                 case "R":
-                    applyImportantStyles(panel, "top:0;left:0;height:300px;width:100%", true);
                     applyImportantStyles(panel, "top:;right:;width:;height:", false);
+                    applyImportantStyles(panel, "top:0;left:0;height:300px;width:100%", true);
                     next_position = "B";
                     break;
                 default:
@@ -155,6 +170,7 @@
         
         // closeButton styling.
         closeButton.id = "stylist:close";
+        //closeButton.setAttribute("title", "Close this panel");
         closeButton.appendChild(document.createTextNode("&times;"));
         applyImportantStyles(closeButton, "position:absolute;top:10px;right:10px;cursor:pointer;width:16px;height:16px;font-size:8pt;text-align:center;vertical-align:middle;padding:0");
         
@@ -162,6 +178,12 @@
         h1.innerHTML = "Stylist";
         applyImportantStyles(h1, "color:#555;background-color:#fcfcfc;width:150px;height:1.5em;margin:4px 0 4px 0;font-family:serif;font-size:20px;font-style:oblique;line-height:1.5em;box-shadow:none;text-shadow:none;text-align:left");
         applyImportantStyles(ul, "font:12px monospace;list-style:none;margin-left:-40px;margin-top:0px");
+        
+        
+        var li_markup = hereDoc(function() {/*
+            <li style="color:#555 !important;display:block !important;">
+            */});
+        
         addItem(ul, "CTRL+M: toggle this panel");
         addItem(ul, "CTRL+Y: change dock position");
         addItem(ul, "ALT+click: target element");
@@ -171,7 +193,7 @@
         panel.appendChild(toggleBox);
         panel.appendChild(textarea);
         panel.appendChild(versionDiv);
-        panel.appendChild(closeButton);
+        //panel.appendChild(closeButton);
         head.appendChild(style); //head
         body.appendChild(panel);
 
@@ -346,6 +368,7 @@
 
         window.addEventListener("keydown", function (event) {
             if (event.ctrlKey) {
+                console.log(event.keyCode);
                 switch (event.keyCode) {
                     case M_KEY_CODE: {
                         // control + m toggles text area
