@@ -79,13 +79,6 @@
         return this.replace(/(^\s+|\s+$)/g, '');
     };
 
-    /* Easy multilined string utility */
-    function hereDoc(f) {
-        return f.toString().
-            replace(/^[^\/]+\/\*!?/, '').
-            replace(/\*\/[^\/]+$/, '');
-    }
-    
     /* Main starting function */
     function init() {
         // before we do anything - check if there is a stylist panel already..
@@ -172,11 +165,6 @@
         h1.innerHTML = "Stylist";
         applyImportantStyles(h1, "color:#555;background-color:#fcfcfc;width:150px;height:1.5em;margin:4px 0 4px 0;font-family:serif;font-size:20px;font-style:oblique;line-height:1.5em;box-shadow:none;text-shadow:none;text-align:left");
         applyImportantStyles(ul, "font:12px monospace;list-style:none;margin-left:-40px;margin-top:0px");
-        
-        
-        var li_markup = hereDoc(function() {/*
-            <li style="color:#555 !important;display:block !important;">
-            */});
         
         addItem(ul, "CTRL+M: toggle this panel");
         addItem(ul, "CTRL+Y: change dock position");
@@ -312,6 +300,7 @@
             }
         });
 
+        /* Save the CSS to file and download to browser - only for Chrome */
         function saveCSSToFile() {
             var data = new Blob([textarea.value], { type: "text/plain;charset=UTF-8" });
             filename = window.URL.createObjectURL(data, { oneTimeOnly: true });
@@ -322,6 +311,7 @@
             window.URL.revokeObjectURL(filename);
         }
 
+        /* Generate timestamp for the CSS file */
         function getTimestamp() {
             var d1 = new Date(),
                 curr_year = d1.getFullYear(),
@@ -353,6 +343,7 @@
             return timestamp;
         }
 
+        /* Toggles the panel in or out of view */
         function togglePanel(open) {
             var stylistPanel = panel || document.getElementById("stylist\:panel");
             if (stylistPanel) {
@@ -360,6 +351,7 @@
             }
         }
 
+        /* Keydown event handler */
         window.addEventListener("keydown", function (event) {
             if (event.ctrlKey) {
                 console.log(event.keyCode);
