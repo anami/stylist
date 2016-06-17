@@ -2,19 +2,16 @@
 <html lang="en">
 	<head>
 		<title>Stylist - Live CSS editor bookmarklet</title>
-		<style type="text/css">
-			html, body { background-color: #fcfcfc; height: 100%;}
-			.container { width: 70%; margin: 0 auto; background-color: white; color: #555; height: 100%; padding: 0 12px 0 12px;}
-			h1, h2 { text-align: left; font-style: italic;}
-			p { font-family: Helvetica, Arial, sans-serif;}
-
-			@media only screen and (max-width: 620px) {
-				img.header-logo { width: 200px }
-			}
-
-		</style>
+		<link rel="stylesheet" href="index.css" />
 	</head>
 <body id="stylist">
+	<header>
+	<h1>Stylist</h1>
+	<p>A tiny polyfill for <a href="https://html.spec.whatwg.org/multipage/forms.html#range-state-(type=range):attr-input-multiple-3">HTML5 multi-handle sliders</a>.</p>
+	<pre><code>&lt;input type="range" <strong>multiple</strong> value="10,80" /></code></pre>
+	<a href="multirange.js" download>Download JS</a>
+	<a href="multirange.css" download>Download CSS</a>
+</header>
 	<div class="container">
 		<img src="logo.png" alt="Stylist logo" class="header-logo" />
 		<h1>Stylist</h1>
