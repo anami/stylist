@@ -152,7 +152,7 @@
         applyImportantStyles(panel, "position:fixed;top:0;right:0;width:300px;height:100%;z-index:2147483647;overflow:auto;outline:solid 1px #333;padding:0 20px;borderTop:0;borderBottom:0;borderRight:0;borderLeft:1px solid #ccc;color:#222;background:#fcfcfc");
         applyImportantStyles(textarea, "font:13px Inconsolata, Consolas, Menlo, Monaco, Lucida Console, Courier New, Courier, monospace;width:100%;height:calc(100% - 140px);direction:ltr;textAlign:left;background:#fcfcfc");
         applyImportantStyles(download, "display:none");
-        applyImportantStyles(versionDiv, "font:9px monospace;color:#aaa;position:absolute;top:10px;right:20px");
+        applyImportantStyles(versionDiv, "font:9px monospace;color:#aaa;position:absolute;top:10px;right:40px");
         versionDiv.innerHTML = "v" + VERSION;
         
         // closeButton styling.

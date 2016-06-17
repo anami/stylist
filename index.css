@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Dr+Sugiyama);
+/*@import url(https://fonts.googleapis.com/css?family=Dr+Sugiyama);*/
 
 body {
 	padding: 0;
@@ -21,7 +21,7 @@ a {
 
 h1 {
 	margin: .5em 0;
-	font: 250%/1 'Dr Sugiyama', cursive;
+	/*font: 250%/1 'Dr Sugiyama', cursive;*/
 }
 
 body > header,
@@ -31,12 +31,17 @@ body > footer {
 }
 
 body > header {
-	background: radial-gradient(at 50% 90%, hsl(190, 80%, 56%) 10%, hsl(190, 80%, 44%));
+	/*background: radial-gradient(at 50% 90%, hsl(190, 80%, 56%) 10%, hsl(190, 80%, 44%));*/
+	background-color: #df8ccf;
 	text-align: center;
 	color: white;
 	padding-bottom: 3em;
 	font-weight: bold;
 	font-size: 120%;
+}
+
+body > header p {
+	font-weight: lighter;
 }
 
 	body > header h1 {
@@ -55,7 +60,7 @@ body > header {
 		font-size: 88%;
 	}
 
-	body > header a[download] {
+	body > header a {
 		display: inline-block;
 		margin: 0 .2em;
 		color: white;
@@ -65,27 +70,17 @@ body > header {
 		text-decoration: none;
 	}
 
-		body > header a[download]:hover {
+		body > header a:hover {
 			background: white;
-			color: hsl(190, 80%, 50%);
+			color: #df8ccf;
 		}
 
-.demo {
-	width: -moz-max-content;
-	width: max-content;
-	padding: 0;
-	text-align: center;
-	transform: scale(1.5);
-	transform-origin: 50% 0;
-	margin: 2em auto;
-}
-
-	.demo input {
-
-	}
 
 body > section h1 {
-	color: hsl(190, 80%, 42%);
+	color: #df8ccf;
+	font-family: 'Times New Roman', Times, serif;
+	font-style: italic;
+	font-size: 180%;
 }
 
 #pros-cons {
