@@ -23,7 +23,7 @@
         SOFT_TAB_LENGTH = SOFT_TAB.length,
         ONLY_WHITESPACE_REGEX = /^\s*$/,
         WHITESPACE_SPLIT_REGEX = /\s+$/g,
-        VERSION = '1.3';
+        VERSION = '1.4';
 
     /* Throttle the given function, condensing multiple calls into one call after
      * the given timeout period. In other words, allow at most one call to go
@@ -136,8 +136,8 @@
         panel.style.display = "block";
         textarea.spellcheck = false;
 
-        textarea.id = "stylist:input";
-        panel.id = "stylist:panel";
+        textarea.id = "__input";
+        panel.id = "__panel";
 
         // create checkbox to toggle the application of the style.
         var checkbox = document.createElement("input");
@@ -156,10 +156,10 @@
         versionDiv.innerHTML = "v" + VERSION;
         
         // closeButton styling.
-        closeButton.id = "stylist:close";
+        closeButton.id = "__close";
         closeButton.setAttribute("title", "Close this panel");
-        closeButton.appendChild(document.createTextNode("&times;"));
-        applyImportantStyles(closeButton, "position:absolute;top:10px;right:10px;cursor:pointer;width:20px;height:20px;font-size:8pt;text-align:center;vertical-align:middle;padding:0");
+        closeButton.appendChild(document.createTextNode("X"));
+        applyImportantStyles(closeButton, "position:absolute;top:10px;right:10px;cursor:pointer;transform:scale(0.8)");
         
         // Add some basic instructions..
         h1.innerHTML = "Stylist";
@@ -345,7 +345,7 @@
 
         /* Toggles the panel in or out of view */
         function togglePanel(open) {
-            var stylistPanel = panel || document.getElementById("stylist\:panel");
+            var stylistPanel = panel || document.getElementById("__panel");
             if (stylistPanel) {
                 stylistPanel.style.display = (open) ? "block" : "none";
             }
