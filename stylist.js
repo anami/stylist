@@ -7,23 +7,23 @@
  *
  * inspired by github.com/karthikv/my-style
  *
- * August 2015
+ * July 2017
  *
  * MIT Licence
  *
  */
 
 // asynchronous self-invoking function to not pollute global namespace
-(function (window, document, undefined) {
+(function(window, document, undefined) {
     var TAB_KEY_CODE = 9,
-        DOCK_KEY = 89,  // Y
+        DOCK_KEY = 89, // Y
         M_KEY_CODE = 77,
         SAVE_KEY = 83, // S
         SOFT_TAB = '    ',
         SOFT_TAB_LENGTH = SOFT_TAB.length,
         ONLY_WHITESPACE_REGEX = /^\s*$/,
         WHITESPACE_SPLIT_REGEX = /\s+$/g,
-        VERSION = '1.5';
+        VERSION = '1.6';
 
     /* Throttle the given function, condensing multiple calls into one call after
      * the given timeout period. In other words, allow at most one call to go
@@ -41,7 +41,7 @@
                 var that = this;
 
                 // call the function after the provided timeout
-                throttledFn.timer = setTimeout(function () {
+                throttledFn.timer = setTimeout(function() {
                     fn.apply(that, args);
 
                     // finished calling the function; unset the timer
@@ -53,7 +53,8 @@
 
     /* apply the styleString as important styles so to prevent being overridden */
     function applyImportantStyles(control, styleString, remove) {
-        var styles = styleString.split(";"), style;
+        var styles = styleString.split(";"),
+            style;
         for (var i = 0, len = styles.length; i < len; i++) {
             if (styles[i] != "") {
                 style = styles[i].split(":");
@@ -75,7 +76,7 @@
     }
 
     /* Remove whitespace on the edges of this string. */
-    String.prototype.trim = function () {
+    String.prototype.trim = function() {
         return this.replace(/(^\s+|\s+$)/g, '');
     };
 
@@ -154,18 +155,18 @@
         applyImportantStyles(download, "display:none");
         applyImportantStyles(versionDiv, "font:9px monospace;color:#aaa;position:absolute;top:10px;right:40px");
         versionDiv.innerHTML = "v" + VERSION;
-        
+
         // closeButton styling.
         closeButton.id = "__close";
         closeButton.setAttribute("title", "Close this panel");
         closeButton.appendChild(document.createTextNode("X"));
         applyImportantStyles(closeButton, "position:absolute;top:10px;right:10px;cursor:pointer;transform:scale(0.8)");
-        
+
         // Add some basic instructions..
         h1.innerHTML = "Stylist";
         applyImportantStyles(h1, "color:#555;background-color:#fcfcfc;width:150px;height:1.5em;margin:4px 0 4px 0;font-family:serif;font-size:20px;font-style:oblique;line-height:1.5em;box-shadow:none;text-shadow:none;text-align:left");
         applyImportantStyles(ul, "font:12px monospace;list-style:none;margin-top:0px");
-        
+
         addItem(ul, "CTRL+M: toggle this panel");
         addItem(ul, "CTRL+Y: change dock position");
         addItem(ul, "ALT+click: target element");
@@ -191,18 +192,18 @@
         style.innerHTML = checkbox.checked ? textarea.value : "";
 
         // alt + click on an element adds its selector to the textarea
-        body.addEventListener("click", function (event) {
+        body.addEventListener("click", function(event) {
             // ensure textarea is actually displayed
             if (textarea.style.display.indexOf("none") === -1 &&
                 event.target.id !== textarea.id && event.altKey) {
                 var i = 0,
-                  target = event.target,
-                  elemClass = target.className.split(" ") || "",
-                  stylesList = [],
-                  existingStyles = "",
-                  selector = "",
-                  cssStatement,
-                  textToAdd;
+                    target = event.target,
+                    elemClass = target.className.split(" ") || "",
+                    stylesList = [],
+                    existingStyles = "",
+                    selector = "",
+                    cssStatement,
+                    textToAdd;
 
                 // selector starts with the tag
                 selector += target.tagName.toLowerCase();
@@ -227,7 +228,7 @@
                     for (i = 0; i < stylesList.length; i++) {
                         // condense mutliple whitespace into one space
                         cssStatement = stylesList[i].split(WHITESPACE_SPLIT_REGEX)
-                          .join(" ").trim();
+                            .join(" ").trim();
 
                         if (!ONLY_WHITESPACE_REGEX.test(cssStatement)) {
                             existingStyles += SOFT_TAB + cssStatement.toLowerCase() + ";\n";
@@ -250,7 +251,7 @@
                     // highlight added text for easy removal
                     textarea.focus();
                     textarea.setSelectionRange(textarea.value.length - textToAdd.length,
-                      textarea.value.length);
+                        textarea.value.length);
                 }
 
                 event.preventDefault();
@@ -258,7 +259,7 @@
         });
 
         /* Save styles persistently in local storage. */
-        var saveStyles = throttle(function () {
+        var saveStyles = throttle(function() {
             localStorage.siteStyle = textarea.value;
             localStorage.applyStyles = checkbox.checked ? "true" : "false";
             console.log("applyStyles :" + localStorage.applyStyles);
@@ -271,14 +272,14 @@
         }
 
         // Apply the style when the Apply Style checkbox is checked.
-        checkbox.addEventListener("click", function (e) {
+        checkbox.addEventListener("click", function(e) {
             updateAndSaveStyles();
         });
-        
+
         // closebutton event listener
         closeButton.addEventListener("click", function(e) {
-           // close the panel - since the button is visible!
-           togglePanel(false); 
+            // close the panel - since the button is visible!
+            togglePanel(false);
         });
 
         // continually update styles with textarea content
@@ -286,18 +287,18 @@
         textarea.addEventListener("change", updateAndSaveStyles);
 
         // pressing tab should insert spaces instead of focusing another element
-        textarea.addEventListener("keydown", function (event) {
+        textarea.addEventListener("keydown", function(event) {
             var value = textarea.value;
             var caret = textarea.selectionStart;
 
             // if tab is pressed, insert four spaces
             if (event.keyCode === TAB_KEY_CODE) {
                 textarea.value = value.substring(0, caret) + SOFT_TAB +
-                  value.substring(caret);
+                    value.substring(caret);
 
                 // move caret to after soft tab
                 textarea.setSelectionRange(caret + SOFT_TAB_LENGTH, caret +
-                  SOFT_TAB_LENGTH);
+                    SOFT_TAB_LENGTH);
 
                 // prevent default tab action that shifts focus to the next element
                 event.preventDefault();
@@ -356,37 +357,40 @@
         }
 
         /* Keydown event handler */
-        window.addEventListener("keydown", function (event) {
+        window.addEventListener("keydown", function(event) {
             if (event.ctrlKey) {
                 console.log(event.keyCode);
                 switch (event.keyCode) {
-                    case M_KEY_CODE: {
-                        // control + m toggles text area
-                        togglePanel((panel.style.display === "none"));
-                        break;
-                    }
-                    case DOCK_KEY: {
-                        // control + l - changes dock position
-                        positionPanel();
-                        break;
-                    }
-                    case SAVE_KEY: {
-                        // save the CSS as a file.
-                        if (isChrome) {
-                            try {
-                                event.preventDefault();
-                                saveCSSToFile();
-                            } catch (e) {
-                                console.log(e);
-                                alert("Unable to save your file.");
-                            }
+                    case M_KEY_CODE:
+                        {
+                            // control + m toggles text area
+                            togglePanel((panel.style.display === "none"));
+                            break;
                         }
-                        break;
-                    }
+                    case DOCK_KEY:
+                        {
+                            // control + l - changes dock position
+                            positionPanel();
+                            break;
+                        }
+                    case SAVE_KEY:
+                        {
+                            // save the CSS as a file.
+                            if (isChrome) {
+                                try {
+                                    event.preventDefault();
+                                    saveCSSToFile();
+                                } catch (e) {
+                                    console.log(e);
+                                    alert("Unable to save your file.");
+                                }
+                            }
+                            break;
+                        }
                 }
             }
         });
-    }//end of init
+    } //end of init
 
     // start...
     init();
