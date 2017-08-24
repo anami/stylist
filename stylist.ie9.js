@@ -10,6 +10,8 @@
  * August 2017
  *
  * MIT Licence
+ * 
+ * IE9-11 version
  *
  */
 
@@ -180,12 +182,7 @@
         panel.appendChild(versionDiv);
         panel.appendChild(closeButton);
         body.appendChild(panel);
-				body.appendChild(style); 
-
-        if (isChrome) {
-            addItem(ul, "CTRL+S: save CSS to file");
-            panel.appendChild(download);
-        }
+				body.appendChild(style); //body
 
         // check if the styles are applied - localStorage stores bools as strings.
         checkbox.checked = (localStorage.applyStyles || 'true') === 'true';
@@ -307,48 +304,6 @@
             }
         });
 
-        /* Save the CSS to file and download to browser - only for Chrome */
-        function saveCSSToFile() {
-            var data = new Blob([textarea.value], { type: "text/plain;charset=UTF-8" });
-            filename = window.URL.createObjectURL(data, { oneTimeOnly: true });
-            console.log(download);
-            download.href = filename;
-            download.download = "stylist_" + getTimestamp() + ".css";
-            download.click();
-            window.URL.revokeObjectURL(filename);
-        }
-
-        /* Generate timestamp for the CSS file */
-        function getTimestamp() {
-            var d1 = new Date(),
-                curr_year = d1.getFullYear(),
-                curr_month = d1.getMonth() + 1, //Months are zero based
-                curr_date = d1.getDate(),
-                curr_hour = d1.getHours(),
-                curr_min = d1.getMinutes(),
-                curr_sec = d1.getSeconds(),
-                delimiter = "_",
-                timestamp;
-
-            if (curr_month < 10)
-                curr_month = "0" + curr_month;
-
-            if (curr_date < 10)
-                curr_date = "0" + curr_date;
-
-            if (curr_hour < 10)
-                curr_hour = "0" + curr_hour;
-
-            if (curr_min < 10)
-                curr_min = "0" + curr_min;
-
-            if (curr_sec < 10)
-                curr_sec = "0" + curr_sec;
-
-            timestamp = curr_year + delimiter + curr_month + curr_date + curr_hour + curr_min + curr_sec;
-
-            return timestamp;
-        }
 
         /* Toggles the panel in or out of view */
         function togglePanel(open) {
@@ -373,20 +328,6 @@
                         {
                             // control + l - changes dock position
                             positionPanel();
-                            break;
-                        }
-                    case SAVE_KEY:
-                        {
-                            // save the CSS as a file.
-                            if (isChrome) {
-                                try {
-                                    event.preventDefault();
-                                    saveCSSToFile();
-                                } catch (e) {
-                                    console.log(e);
-                                    alert("Unable to save your file.");
-                                }
-                            }
                             break;
                         }
                 }
